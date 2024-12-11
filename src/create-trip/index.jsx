@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelesList } from "@/constants/options";
 import { useEffect, useState } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+import { toast } from "sonner";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
@@ -21,7 +22,8 @@ function CreateTrip() {
   },[formData])
 
   const OnGenerateTrip = () => {
-    if (formData.noofDays>5) {
+    if (formData.noofDays>5 && !formData?.location || !formData.budget || !formData?.travelers) {
+      toast("Please fill all the details")
       return;
     }
 
@@ -30,7 +32,7 @@ function CreateTrip() {
 
   return (
     <>
-      <div className="sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mt-10">
+      <div className="sm:px-10 md:px-32 lg:px-56 xl:px-10  m-10">
         <h2 className="font-bold text-3xl">Tell us your travel perferences 🛖🏕️🏝️</h2>
         <p className="mt-3 text-xl text-gray-500">
           Just provide some basic information, and our trip planner will
@@ -54,11 +56,11 @@ function CreateTrip() {
             />
           </div>
 
-          <div className="mt-10">
+          <div >
             <h2 className="text-xl my-3 font-medium">
               How many days are you planning your trip?
             </h2>
-            <Input placeholder={"Ex.2"} type="number" 
+            <Input placeholder={"Ex.2 Maximum of 5"} type="number" 
               onChange={(e) => handleInputChange('noofDays',e.target.value)}
             />
           </div>
